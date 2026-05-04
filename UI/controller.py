@@ -14,7 +14,25 @@ class Controller:
 
     def handleWorstCase(self, e):
         # TO FILL
-        pass
+        nerc = self._view._ddNerc.value
+        maxY = self._view._txtYears.value
+        maxH = self._view._txtHours.value
+
+        if nerc is None or maxY is None or maxH is None:
+            self._view.create_alert("Select every field !")
+            self._view.update_page()
+            return
+
+        if not int(maxH) or not  int(maxY):
+            self._view.create_alert("Insert a coherent value !")
+            self._view.update_page()
+            return
+
+        self._model.worstCase(nerc, maxY, maxH)
+
+
+
+
 
     def fillDD(self):
         nercList = self._model.listNerc

@@ -13,19 +13,23 @@ class Model:
         self._bestCustomer = 0
 
 
-
-
     def worstCase(self, nerc, maxY, maxH):
         self._solBest = []
         self._bestCustomer = 0
         self._listRightEvents = []
 
-        self.loadNerc(nerc)
+        self.loadEvents(nerc)
+
+        print("DEBUG MODEL")
+        print("NERC selezionato:", nerc)
+        print("Eventi caricati:", len(self._listEvents))
 
         for e in self._listEvents:
             durata = self._getDurationHours(e)
             if durata <= maxH:
                 self._listRightEvents.append(e)
+
+        print("Eventi candidati dopo filtro ore:", len(self._listRightEvents))
 
         self.ricorsione(
             pos = 0,
@@ -33,7 +37,7 @@ class Model:
             maxY = maxY,
             maxH = maxH,
             currentHours = 0.0,
-            currentCUstmer = 0,
+            currentCustomer = 0,
             minYear = None,
             maxYear = None
         )
@@ -41,13 +45,12 @@ class Model:
         return self._solBest, self._bestCustomer
 
 
-
     def ricorsione(self, pos, parziale, maxY, maxH, currentHours, currentCustomer, minYear, maxYear):
         # CONDIZIONE TERMINALE
         if pos == len(self._listRightEvents):
             if currentCustomer > self._bestCustomer:
                 self._bestCustomer = currentCustomer
-                self._solBest = copy.deepcpy(parziale)
+                self._solBest = copy.deepcopy(parziale)
             return
 
         e = self._listRightEvents[pos]
